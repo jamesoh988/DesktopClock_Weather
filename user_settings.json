@@ -1,0 +1,16 @@
+{
+  "window": {
+    "width": 1215,
+    "height": 979
+  },
+  "theme": "dark",
+  "clock": {
+    "mode": "analog",
+    "scale": 2.0
+  },
+  "location": {
+    "city": "Seoul",
+    "latitude": 37.5665,
+    "longitude": 126.978
+  }
+}
