@@ -2,7 +2,7 @@
 Main window for the Desktop Clock & Weather Application
 """
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
-                             QPushButton, QFrame, QSizeGrip, QSlider, QLabel)
+                             QPushButton, QFrame)
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 
@@ -26,7 +26,6 @@ class MainWindow(QMainWindow):
         # Load settings
         self.current_theme = self.settings.get('theme', config.DEFAULT_THEME)
         self.clock_mode = self.settings.get('clock.mode', config.DEFAULT_CLOCK_MODE)
-        self.clock_scale = self.settings.get('clock.scale', 1.0)
 
         self.init_ui()
         self.apply_theme()
@@ -58,7 +57,7 @@ class MainWindow(QMainWindow):
         self.theme_button.clicked.connect(self.toggle_theme)
 
         # Clock mode toggle button
-        button_text = "🔢 디지털" if self.clock_mode == config.CLOCK_MODE_ANALOG else "🕐 아날로그"
+        button_text = "🕐 아날로그" if self.clock_mode == config.CLOCK_MODE_ANALOG else "🔢 디지털"
         self.clock_mode_button = QPushButton(button_text)
         self.clock_mode_button.clicked.connect(self.toggle_clock_mode)
 
@@ -76,24 +75,7 @@ class MainWindow(QMainWindow):
         # Content layout (weather and calendar side by side)
         content_layout = QHBoxLayout()
 
-        # Clock container with size control
-        clock_container = QVBoxLayout()
-
-        # Clock size slider
-        size_control_layout = QHBoxLayout()
-        size_label = QLabel("크기:")
-
-        self.clock_size_slider = QSlider(Qt.Horizontal)
-        self.clock_size_slider.setMinimum(50)
-        self.clock_size_slider.setMaximum(200)
-        self.clock_size_slider.setValue(int(self.clock_scale * 100))
-        self.clock_size_slider.setMaximumWidth(150)
-        self.clock_size_slider.valueChanged.connect(self.on_clock_size_changed)
-
-        size_control_layout.addWidget(size_label)
-        size_control_layout.addWidget(self.clock_size_slider)
-        size_control_layout.addStretch()
-
+        # Clock container
         self.clock_frame = QFrame()
         self.clock_layout = QVBoxLayout()
         self.clock_frame.setLayout(self.clock_layout)
@@ -102,19 +84,12 @@ class MainWindow(QMainWindow):
         self.digital_clock = DigitalClock()
         self.analog_clock = AnalogClock()
 
-        # Apply saved scale
-        self.digital_clock.set_scale(self.clock_scale)
-        self.analog_clock.set_scale(self.clock_scale)
-
         if self.clock_mode == config.CLOCK_MODE_ANALOG:
             self.clock_layout.addWidget(self.analog_clock)
             self.digital_clock.hide()
         else:
             self.clock_layout.addWidget(self.digital_clock)
             self.analog_clock.hide()
-
-        clock_container.addLayout(size_control_layout)
-        clock_container.addWidget(self.clock_frame)
 
         # Calendar widget
         self.calendar_frame = QFrame()
@@ -123,8 +98,8 @@ class MainWindow(QMainWindow):
         calendar_layout.addWidget(self.calendar_widget)
         self.calendar_frame.setLayout(calendar_layout)
 
-        content_layout.addLayout(clock_container)
-        content_layout.addWidget(self.calendar_frame)
+        content_layout.addWidget(self.clock_frame, 5)  # 50% width
+        content_layout.addWidget(self.calendar_frame, 5)  # 50% width
 
         # Add all to main layout
         main_layout.addLayout(controls_layout)
@@ -156,7 +131,7 @@ class MainWindow(QMainWindow):
             self.analog_clock.show()
 
             self.clock_mode = config.CLOCK_MODE_ANALOG
-            self.clock_mode_button.setText("🔢 디지털")
+            self.clock_mode_button.setText("🕐 아날로그")
         else:
             self.clock_layout.removeWidget(self.analog_clock)
             self.analog_clock.hide()
@@ -165,17 +140,9 @@ class MainWindow(QMainWindow):
             self.digital_clock.show()
 
             self.clock_mode = config.CLOCK_MODE_DIGITAL
-            self.clock_mode_button.setText("🕐 아날로그")
+            self.clock_mode_button.setText("🔢 디지털")
 
         self.settings.set('clock.mode', self.clock_mode)
-
-    def on_clock_size_changed(self, value):
-        """Handle clock size slider change"""
-        self.clock_scale = value / 100.0
-        self.digital_clock.set_scale(self.clock_scale)
-        if self.analog_clock:
-            self.analog_clock.set_scale(self.clock_scale)
-        self.settings.set('clock.scale', self.clock_scale)
 
     def apply_theme(self):
         """Apply the current theme to the application"""

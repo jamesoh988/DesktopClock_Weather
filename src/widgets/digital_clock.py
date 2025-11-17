@@ -12,30 +12,35 @@ class DigitalClock(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.scale = 1.0
-        self.base_time_font_size = 48
-        self.base_date_font_size = 14
+        self.base_time_font_size = 32
+        self.base_date_font_size = 16
         self.init_ui()
         self.start_timer()
 
     def init_ui(self):
         """Initialize the user interface"""
         layout = QVBoxLayout()
-        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setSpacing(10)
 
         # Time label
         self.time_label = QLabel()
         self.time_label.setAlignment(Qt.AlignCenter)
+        self.time_label.setWordWrap(True)
         self.time_font = QFont('Ubuntu Mono', self.base_time_font_size, QFont.Bold)
         self.time_label.setFont(self.time_font)
 
         # Date label
         self.date_label = QLabel()
         self.date_label.setAlignment(Qt.AlignCenter)
+        self.date_label.setWordWrap(True)
         self.date_font = QFont('Ubuntu', self.base_date_font_size)
         self.date_label.setFont(self.date_font)
 
-        layout.addWidget(self.time_label)
-        layout.addWidget(self.date_label)
+        layout.addStretch(5)
+        layout.addWidget(self.time_label, 5)
+        layout.addWidget(self.date_label, 5)
+        layout.addStretch(5)
 
         self.setLayout(layout)
         self.update_time()
@@ -81,3 +86,14 @@ class DigitalClock(QWidget):
         self.date_font.setPointSize(int(self.base_date_font_size * scale))
         self.time_label.setFont(self.time_font)
         self.date_label.setFont(self.date_font)
+
+    def resizeEvent(self, event):
+        """Handle resize event to scale font based on widget size"""
+        super().resizeEvent(event)
+        # Calculate scale based on widget width
+        width = self.width()
+        if width > 0:
+            # Scale font size based on width (baseline 500px = 1.0 scale)
+            scale = width / 500.0
+            scale = max(0.6, min(scale, 2.5))  # Limit between 0.6x and 2.5x
+            self.set_scale(scale)

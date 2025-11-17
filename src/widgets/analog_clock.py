@@ -14,7 +14,7 @@ class AnalogClock(QWidget):
         super().__init__(parent)
         self.scale = 1.0
         self.base_size = 200
-        self.setMinimumSize(int(self.base_size * self.scale), int(self.base_size * self.scale))
+        self.setMinimumSize(150, 150)
         self.start_timer()
 
     def start_timer(self):
@@ -119,7 +119,9 @@ class AnalogClock(QWidget):
     def set_scale(self, scale):
         """Set the scale factor for the clock"""
         self.scale = scale
-        new_size = int(self.base_size * scale)
-        self.setMinimumSize(new_size, new_size)
-        self.updateGeometry()
         self.update()
+
+    def sizeHint(self):
+        """Provide size hint for layout"""
+        from PyQt5.QtCore import QSize
+        return QSize(400, 400)

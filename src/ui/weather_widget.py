@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButt
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtGui import QFont
 from src.services.free_weather_service import FreeWeatherService
+from src.services.location_service import LocationService
 import config
 
 
@@ -14,6 +15,11 @@ class WeatherWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.weather_service = FreeWeatherService()
+
+        # Detect location based on IP
+        self.location = LocationService.detect_location()
+        print(f"Detected location: {self.location['city']}, {self.location['country']}")
+
         self.init_ui()
         self.start_timer()
         self.update_weather()
@@ -58,7 +64,7 @@ class WeatherWidget(QWidget):
         self.air_quality_label = QLabel("미세먼지: --")
         self.air_quality_label.setFont(info_font)
 
-        self.location_label = QLabel(f"{config.DEFAULT_CITY}")
+        self.location_label = QLabel(f"{self.location['city']}")
         self.location_label.setFont(info_font)
 
         info_layout.addWidget(self.humidity_label)
@@ -83,10 +89,10 @@ class WeatherWidget(QWidget):
 
     def update_weather(self):
         """Update weather information"""
-        # Get weather data
+        # Get weather data using detected location
         weather_data = self.weather_service.get_weather(
-            lat=config.DEFAULT_LAT,
-            lon=config.DEFAULT_LON
+            lat=self.location['latitude'],
+            lon=self.location['longitude']
         )
 
         if weather_data and 'current' in weather_data:
@@ -108,8 +114,8 @@ class WeatherWidget(QWidget):
             humidity = current.get('relative_humidity_2m', 0)
             self.humidity_label.setText(f"습도: {humidity}%")
 
-            # Update location
-            self.location_label.setText(config.DEFAULT_CITY)
+            # Update location with detected city
+            self.location_label.setText(self.location['city'])
 
             # Get air quality data
             self.update_air_quality()
@@ -119,8 +125,8 @@ class WeatherWidget(QWidget):
     def update_air_quality(self):
         """Update air quality information"""
         air_data = self.weather_service.get_air_quality(
-            config.DEFAULT_LAT,
-            config.DEFAULT_LON
+            self.location['latitude'],
+            self.location['longitude']
         )
 
         if air_data and 'current' in air_data:
