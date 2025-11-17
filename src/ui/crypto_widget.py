@@ -78,7 +78,7 @@ class CryptoWidget(QWidget):
                 self.price_label.setText(formatted_price)
 
             # Update change percentage
-            change_rate = btc_data.get('fluctate_rate_24H', 0)
+            change_rate = btc_data.get('fluctate_rate', 0)
             if change_rate != 0:
                 if change_rate > 0:
                     self.change_label.setText(f"(+{change_rate:.2f}%)")
@@ -111,9 +111,9 @@ class CryptoWidget(QWidget):
             # Update tooltip
             tooltip = f"BTC (Bitcoin)\n"
             tooltip += f"현재가: {self.crypto_service.format_price(price)}\n"
-            tooltip += f"24h 변동: {change_rate:+.2f}%\n"
-            if 'acc_trade_value_24H' in btc_data:
-                volume = btc_data['acc_trade_value_24H']
+            tooltip += f"변동: {change_rate:+.2f}%\n"
+            if 'volume' in btc_data:
+                volume = btc_data['volume']
                 tooltip += f"거래량: ₩{volume/100000000:.1f}억\n"
             tooltip += "\n클릭하여 7code.co.kr에서 더 보기"
             self.setToolTip(tooltip)
