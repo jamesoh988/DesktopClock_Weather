@@ -19,19 +19,33 @@ class CryptoService:
         Returns:
             Dictionary with BTC data or None if request fails
         """
+        return self.get_coin_data('BTC')
+
+    def get_coin_data(self, symbol: str) -> Optional[Dict]:
+        """
+        Get coin data from coins API
+
+        Args:
+            symbol: Coin symbol (e.g., 'BTC', 'ETH', 'XRP')
+
+        Returns:
+            Dictionary with coin data or None if request fails
+        """
         try:
             response = requests.get(f'{self.base_url}/coins', timeout=10)
             response.raise_for_status()
             coins = response.json()
 
-            # Find BTC in the coin list
+            # Find coin in the list
             for coin in coins:
-                if coin.get('symbol') == 'BTC_KRW' or coin.get('symbol') == 'BTC':
+                coin_symbol = coin.get('symbol', '')
+                # Match symbol with or without _KRW suffix
+                if coin_symbol == f'{symbol}_KRW' or coin_symbol == symbol or coin.get('name') == symbol:
                     return coin
 
             return None
         except requests.exceptions.RequestException as e:
-            print(f"Error fetching BTC data: {e}")
+            print(f"Error fetching {symbol} data: {e}")
             return None
 
     @staticmethod
