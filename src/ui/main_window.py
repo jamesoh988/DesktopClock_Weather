@@ -10,6 +10,7 @@ from src.widgets.digital_clock import DigitalClock
 from src.widgets.analog_clock import AnalogClock
 from src.ui.calendar_widget import CalendarWidget
 from src.ui.weather_widget import WeatherWidget
+from src.ui.crypto_widget import CryptoWidget
 from src.themes.dark_theme import DARK_THEME
 from src.themes.light_theme import LIGHT_THEME
 from src.utils.settings_manager import SettingsManager
@@ -65,11 +66,14 @@ class MainWindow(QMainWindow):
         controls_layout.addWidget(self.clock_mode_button)
         controls_layout.addStretch()
 
-        # Weather widget
+        # Weather and Crypto widget
         self.weather_frame = QFrame()
-        weather_layout = QVBoxLayout()
+        weather_layout = QHBoxLayout()
         self.weather_widget = WeatherWidget()
+        self.crypto_widget = CryptoWidget()
         weather_layout.addWidget(self.weather_widget)
+        weather_layout.addWidget(self.crypto_widget)
+        weather_layout.addStretch()
         self.weather_frame.setLayout(weather_layout)
 
         # Content layout (weather and calendar side by side)
