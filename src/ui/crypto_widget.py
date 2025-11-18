@@ -25,7 +25,7 @@ class CryptoWidget(QWidget):
     def init_ui(self):
         """Initialize the user interface with right-aligned layout"""
         layout = QHBoxLayout()
-        layout.setContentsMargins(10, 5, 10, 5)
+        layout.setContentsMargins(10, 25, 10, 25)
         layout.setSpacing(8)
 
         # Coin + change rate label (e.g., "USDT (-0.67%)")
@@ -34,6 +34,7 @@ class CryptoWidget(QWidget):
         self.coin_change_label.setMinimumWidth(200)
         self.coin_change_label.setMaximumWidth(200)
         self.coin_change_label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+        self.coin_change_label.setStyleSheet("outline: none; border: none;")
         self.coin_change_label.setCursor(QCursor(Qt.PointingHandCursor))
         self.coin_change_label.mousePressEvent = self.mousePressEvent
 
@@ -44,6 +45,7 @@ class CryptoWidget(QWidget):
         self.price_label.setMinimumWidth(180)
         self.price_label.setMaximumWidth(180)
         self.price_label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)  # Changed to left
+        self.price_label.setStyleSheet("outline: none; border: none;")
         self.price_label.setCursor(QCursor(Qt.PointingHandCursor))
         self.price_label.mousePressEvent = self.mousePressEvent
 
@@ -51,11 +53,11 @@ class CryptoWidget(QWidget):
         self.signal_label = QLabel("● ● ● ● ●")
         signal_font = QFont('Ubuntu', 10)
         self.signal_label.setFont(signal_font)
-        self.signal_label.setStyleSheet("color: #888888;")
+        self.signal_label.setStyleSheet("color: #888888; outline: none; border: none;")
         self.signal_label.setMinimumWidth(170)
         self.signal_label.setMaximumWidth(170)
         self.signal_label.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
-
+        
         layout.addWidget(self.coin_change_label)
         layout.addWidget(self.price_label)
         layout.addWidget(self.signal_label)
@@ -184,7 +186,7 @@ class CryptoWidget(QWidget):
                     self.signal_label.setText('<span style="color: #ff0000;">● ●</span> <span style="color: #888888;">● ● ●</span>')
                 else:
                     self.signal_label.setText('<span style="color: #888888;">● ● ● ● ●</span>')
-                self.signal_label.setStyleSheet("")  # Clear default style
+                self.signal_label.setStyleSheet("outline: none; border: none;")  # Keep outline/border removed
 
             # Update tooltip
             tooltip = f"{current_symbol} ({coin_name})\n"
