@@ -28,9 +28,6 @@ class CryptoWidget(QWidget):
         layout.setContentsMargins(10, 5, 10, 5)
         layout.setSpacing(8)
 
-        # Push everything to the right
-        layout.addStretch()
-
         # Coin + change rate label (e.g., "USDT (-0.67%)")
         self.coin_change_label = QLabel("BTC (--)")
         self.coin_change_label.setFont(QFont('Ubuntu', 10, QFont.Bold))

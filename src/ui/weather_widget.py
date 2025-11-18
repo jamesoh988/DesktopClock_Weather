@@ -27,7 +27,7 @@ class WeatherWidget(QWidget):
     def init_ui(self):
         """Initialize the user interface"""
         layout = QHBoxLayout()
-        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setContentsMargins(10, 0, 10, 0)
 
         # Weather icon
         self.icon_label = QLabel("🌡️")
@@ -80,6 +80,10 @@ class WeatherWidget(QWidget):
         layout.addStretch()
 
         self.setLayout(layout)
+
+        # Set maximum height to keep it compact
+        self.setMaximumHeight(100)
+        self.setMinimumHeight(90)
 
     def start_timer(self):
         """Start the timer to update weather periodically"""

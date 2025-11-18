@@ -2,7 +2,7 @@
 Main window for the Desktop Clock & Weather Application
 """
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
-                             QPushButton, QFrame)
+                             QPushButton, QFrame, QSplitter)
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 
@@ -68,16 +68,15 @@ class MainWindow(QMainWindow):
 
         # Weather and Crypto widget
         self.weather_frame = QFrame()
+        self.weather_frame.setMaximumHeight(130)  # Limit height for compact display
         weather_layout = QHBoxLayout()
+        weather_layout.setContentsMargins(0, 0, 0, 0)
         self.weather_widget = WeatherWidget()
         self.crypto_widget = CryptoWidget()
-        weather_layout.addWidget(self.weather_widget)
-        weather_layout.addWidget(self.crypto_widget)
-        weather_layout.addStretch()
+        weather_layout.addWidget(self.weather_widget)  # Left aligned
+        weather_layout.addStretch()  # Space in the middle
+        weather_layout.addWidget(self.crypto_widget)  # Right aligned
         self.weather_frame.setLayout(weather_layout)
-
-        # Content layout (weather and calendar side by side)
-        content_layout = QHBoxLayout()
 
         # Clock container
         self.clock_frame = QFrame()
@@ -102,13 +101,25 @@ class MainWindow(QMainWindow):
         calendar_layout.addWidget(self.calendar_widget)
         self.calendar_frame.setLayout(calendar_layout)
 
-        content_layout.addWidget(self.clock_frame, 5)  # 50% width
-        content_layout.addWidget(self.calendar_frame, 5)  # 50% width
+        # Create splitter for resizable layout
+        self.content_splitter = QSplitter(Qt.Horizontal)
+        self.content_splitter.addWidget(self.clock_frame)
+        self.content_splitter.addWidget(self.calendar_frame)
+
+        # Set initial sizes (50% each)
+        self.content_splitter.setSizes([500, 500])
+
+        # Load splitter sizes from settings if available
+        splitter_sizes = self.settings.get('splitter.sizes', [500, 500])
+        self.content_splitter.setSizes(splitter_sizes)
+
+        # Save splitter sizes when changed
+        self.content_splitter.splitterMoved.connect(self.save_splitter_sizes)
 
         # Add all to main layout
         main_layout.addLayout(controls_layout)
         main_layout.addWidget(self.weather_frame)
-        main_layout.addLayout(content_layout)
+        main_layout.addWidget(self.content_splitter)
 
         central_widget.setLayout(main_layout)
 
@@ -158,6 +169,11 @@ class MainWindow(QMainWindow):
         # Force update of analog clock if it exists
         if self.analog_clock:
             self.analog_clock.update()
+
+    def save_splitter_sizes(self):
+        """Save splitter sizes to settings"""
+        sizes = self.content_splitter.sizes()
+        self.settings.set('splitter.sizes', sizes)
 
     def resizeEvent(self, event):
         """Handle window resize event"""

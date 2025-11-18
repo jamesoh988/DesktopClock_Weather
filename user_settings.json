@@ -1,7 +1,7 @@
 {
   "window": {
-    "width": 1451,
-    "height": 1073
+    "width": 1160,
+    "height": 809
   },
   "theme": "dark",
   "clock": {
@@ -12,5 +12,11 @@
     "city": "Seoul",
     "latitude": 37.5665,
     "longitude": 126.978
+  },
+  "splitter": {
+    "sizes": [
+      437,
+      693
+    ]
   }
 }
