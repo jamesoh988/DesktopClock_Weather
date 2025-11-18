@@ -21,6 +21,7 @@ class CalendarWidget(QWidget):
         # Calendar title
         self.title_label = QLabel("Calendar")
         self.title_label.setAlignment(Qt.AlignCenter)
+        self.title_label.setStyleSheet("outline: none; border: none;")
         title_font = QFont('Ubuntu', 14, QFont.Bold)
         self.title_label.setFont(title_font)
 
@@ -40,6 +41,7 @@ class CalendarWidget(QWidget):
         # Current date info label
         self.date_info_label = QLabel()
         self.date_info_label.setAlignment(Qt.AlignCenter)
+        self.date_info_label.setStyleSheet("outline: none; border: none;")
         info_font = QFont('Ubuntu', 11)
         self.date_info_label.setFont(info_font)
         self.update_date_info()

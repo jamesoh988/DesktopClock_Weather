@@ -27,6 +27,7 @@ class DigitalClock(QWidget):
         self.time_label = QLabel()
         self.time_label.setAlignment(Qt.AlignCenter)
         self.time_label.setWordWrap(True)
+        self.time_label.setStyleSheet("outline: none; border: none;")
         self.time_font = QFont('Ubuntu Mono', self.base_time_font_size, QFont.Bold)
         self.time_label.setFont(self.time_font)
 
@@ -34,6 +35,7 @@ class DigitalClock(QWidget):
         self.date_label = QLabel()
         self.date_label.setAlignment(Qt.AlignCenter)
         self.date_label.setWordWrap(True)
+        self.date_label.setStyleSheet("outline: none; border: none;")
         self.date_font = QFont('Ubuntu', self.base_date_font_size)
         self.date_label.setFont(self.date_font)
 
