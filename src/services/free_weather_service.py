@@ -68,61 +68,61 @@ class FreeWeatherService:
     @staticmethod
     def get_pm25_description(pm25: float) -> str:
         """
-        Get air quality description based on PM2.5 in Korean
+        Get air quality description based on PM2.5 in English
 
         Args:
             pm25: PM2.5 value
 
         Returns:
-            Korean description of air quality
+            English description of air quality
         """
         if pm25 <= 15:
-            return "좋음"
+            return "Good"
         elif pm25 <= 35:
-            return "보통"
+            return "Moderate"
         elif pm25 <= 75:
-            return "나쁨"
+            return "Unhealthy"
         else:
-            return "매우 나쁨"
+            return "Very Unhealthy"
 
     @staticmethod
     def get_weather_description(weather_code: int) -> str:
         """
-        Get weather description based on WMO weather code in Korean
+        Get weather description based on WMO weather code in English
 
         Args:
             weather_code: WMO weather code
 
         Returns:
-            Korean weather description
+            English weather description
         """
         weather_descriptions = {
-            0: "맑음",
-            1: "대체로 맑음",
-            2: "구름 조금",
-            3: "흐림",
-            45: "안개",
-            48: "안개",
-            51: "가벼운 이슬비",
-            53: "이슬비",
-            55: "강한 이슬비",
-            61: "약한 비",
-            63: "비",
-            65: "강한 비",
-            71: "약한 눈",
-            73: "눈",
-            75: "강한 눈",
-            77: "진눈깨비",
-            80: "소나기",
-            81: "소나기",
-            82: "강한 소나기",
-            85: "눈",
-            86: "강한 눈",
-            95: "뇌우",
-            96: "뇌우",
-            99: "강한 뇌우"
+            0: "Clear",
+            1: "Mainly Clear",
+            2: "Partly Cloudy",
+            3: "Overcast",
+            45: "Foggy",
+            48: "Foggy",
+            51: "Light Drizzle",
+            53: "Drizzle",
+            55: "Heavy Drizzle",
+            61: "Light Rain",
+            63: "Rain",
+            65: "Heavy Rain",
+            71: "Light Snow",
+            73: "Snow",
+            75: "Heavy Snow",
+            77: "Sleet",
+            80: "Showers",
+            81: "Showers",
+            82: "Heavy Showers",
+            85: "Snow",
+            86: "Heavy Snow",
+            95: "Thunderstorm",
+            96: "Thunderstorm",
+            99: "Heavy Thunderstorm"
         }
-        return weather_descriptions.get(weather_code, "알 수 없음")
+        return weather_descriptions.get(weather_code, "Unknown")
 
     @staticmethod
     def get_weather_icon(weather_code: int) -> str:

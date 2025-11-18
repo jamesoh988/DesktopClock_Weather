@@ -54,6 +54,7 @@ class DigitalClock(QWidget):
     def update_time(self):
         """Update the displayed time"""
         from datetime import datetime
+        import locale
 
         current_time = datetime.now()
 
@@ -62,7 +63,23 @@ class DigitalClock(QWidget):
         self.time_label.setText(time_str)
 
         # Format date in English (e.g., "January 15, 2025 Monday")
+        # Temporarily set locale to English for date formatting
+        old_locale = locale.getlocale(locale.LC_TIME)
+        try:
+            locale.setlocale(locale.LC_TIME, 'en_US.UTF-8')
+        except:
+            try:
+                locale.setlocale(locale.LC_TIME, 'C')
+            except:
+                pass
+
         date_str = current_time.strftime('%B %d, %Y %A')
+
+        # Restore original locale
+        try:
+            locale.setlocale(locale.LC_TIME, old_locale)
+        except:
+            pass
 
         self.date_label.setText(date_str)
 

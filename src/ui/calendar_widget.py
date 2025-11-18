@@ -30,6 +30,10 @@ class CalendarWidget(QWidget):
         self.calendar.setVerticalHeaderFormat(QCalendarWidget.NoVerticalHeader)
         self.calendar.setFirstDayOfWeek(Qt.Sunday)
 
+        # Set locale to English
+        from PyQt5.QtCore import QLocale
+        self.calendar.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+
         # Set to current date
         self.calendar.setSelectedDate(QDate.currentDate())
 

@@ -45,7 +45,7 @@ class WeatherWidget(QWidget):
         temp_font = QFont('Ubuntu', 24, QFont.Bold)
         self.temp_label.setFont(temp_font)
 
-        self.desc_label = QLabel("날씨 정보 로딩중...")
+        self.desc_label = QLabel("Loading weather...")
         desc_font = QFont('Ubuntu', 11)
         self.desc_label.setFont(desc_font)
 
@@ -58,10 +58,10 @@ class WeatherWidget(QWidget):
 
         info_font = QFont('Ubuntu', 9)
 
-        self.humidity_label = QLabel("습도: --%")
+        self.humidity_label = QLabel("Humidity: --%")
         self.humidity_label.setFont(info_font)
 
-        self.air_quality_label = QLabel("미세먼지: --")
+        self.air_quality_label = QLabel("PM2.5: --")
         self.air_quality_label.setFont(info_font)
 
         self.location_label = QLabel(f"{self.location['city']}")
@@ -116,7 +116,7 @@ class WeatherWidget(QWidget):
 
             # Update humidity
             humidity = current.get('relative_humidity_2m', 0)
-            self.humidity_label.setText(f"습도: {humidity}%")
+            self.humidity_label.setText(f"Humidity: {humidity}%")
 
             # Update location with detected city
             self.location_label.setText(self.location['city'])
@@ -124,7 +124,7 @@ class WeatherWidget(QWidget):
             # Get air quality data
             self.update_air_quality()
         else:
-            self.desc_label.setText("날씨 정보 없음")
+            self.desc_label.setText("No weather data")
 
     def update_air_quality(self):
         """Update air quality information"""
@@ -138,6 +138,6 @@ class WeatherWidget(QWidget):
             pm25 = current.get('pm2_5', 0)
             aqi_desc = self.weather_service.get_pm25_description(pm25)
 
-            self.air_quality_label.setText(f"미세먼지: {aqi_desc}")
+            self.air_quality_label.setText(f"PM2.5: {aqi_desc}")
         else:
-            self.air_quality_label.setText("미세먼지: --")
+            self.air_quality_label.setText("PM2.5: --")
