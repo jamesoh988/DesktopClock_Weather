@@ -34,8 +34,8 @@ class CryptoWidget(QWidget):
         # Coin + change rate label (e.g., "USDT (-0.67%)")
         self.coin_change_label = QLabel("BTC (--)")
         self.coin_change_label.setFont(QFont('Ubuntu', 10, QFont.Bold))
-        self.coin_change_label.setMinimumWidth(170)
-        self.coin_change_label.setMaximumWidth(170)
+        self.coin_change_label.setMinimumWidth(200)
+        self.coin_change_label.setMaximumWidth(200)
         self.coin_change_label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
         self.coin_change_label.setCursor(QCursor(Qt.PointingHandCursor))
         self.coin_change_label.mousePressEvent = self.mousePressEvent
@@ -55,8 +55,8 @@ class CryptoWidget(QWidget):
         signal_font = QFont('Ubuntu', 10)
         self.signal_label.setFont(signal_font)
         self.signal_label.setStyleSheet("color: #888888;")
-        self.signal_label.setMinimumWidth(160)
-        self.signal_label.setMaximumWidth(160)
+        self.signal_label.setMinimumWidth(170)
+        self.signal_label.setMaximumWidth(170)
         self.signal_label.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
 
         layout.addWidget(self.coin_change_label)
@@ -64,6 +64,10 @@ class CryptoWidget(QWidget):
         layout.addWidget(self.signal_label)
 
         self.setLayout(layout)
+
+        # Set minimum width to prevent widget from shrinking
+        # Total: coin(200) + price(180) + signal(170) + margins + spacing = ~570
+        self.setMinimumWidth(570)
 
     def mousePressEvent(self, event):
         """Handle mouse click to open website"""

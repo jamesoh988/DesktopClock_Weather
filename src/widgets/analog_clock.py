@@ -114,7 +114,7 @@ class AnalogClock(QWidget):
         # Calculate text width for centering
         fm = painter.fontMetrics()
         text_width = fm.horizontalAdvance(time_str)
-        painter.drawText(-text_width // 2, 120, time_str)
+        painter.drawText(-text_width // 2, 130, time_str)
 
     def set_scale(self, scale):
         """Set the scale factor for the clock"""
