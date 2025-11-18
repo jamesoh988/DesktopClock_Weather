@@ -188,12 +188,12 @@ class CryptoWidget(QWidget):
 
             # Update tooltip
             tooltip = f"{current_symbol} ({coin_name})\n"
-            tooltip += f"현재가: {self.crypto_service.format_price(price)}\n"
-            tooltip += f"변동: {change_rate:+.2f}%\n"
+            tooltip += f"Price: {self.crypto_service.format_price(price)}\n"
+            tooltip += f"Change: {change_rate:+.2f}%\n"
             if 'volume' in coin_data:
                 volume = coin_data['volume']
-                tooltip += f"거래량: ₩{volume/100000000:.1f}억\n"
-            tooltip += "\n클릭하여 7code.co.kr에서 더 보기"
+                tooltip += f"Volume: ₩{volume/100000000:.1f}B\n"
+            tooltip += "\nClick to view more on 7code.co.kr"
             for label in [self.coin_change_label, self.price_label]:
                 label.setToolTip(tooltip)
         else:
@@ -201,4 +201,4 @@ class CryptoWidget(QWidget):
             self.price_label.setText("₩--")
             self.signal_label.setText('<span style="color: #888888;">● ● ● ● ●</span>')
             for label in [self.coin_change_label, self.price_label]:
-                label.setToolTip("데이터 로딩 실패\n클릭하여 7code.co.kr에서 더 보기")
+                label.setToolTip("Data loading failed\nClick to view more on 7code.co.kr")

@@ -54,11 +54,11 @@ class MainWindow(QMainWindow):
         controls_layout = QHBoxLayout()
 
         # Theme toggle button
-        self.theme_button = QPushButton("🌙 다크 모드")
+        self.theme_button = QPushButton("🌙 Dark Mode")
         self.theme_button.clicked.connect(self.toggle_theme)
 
         # Clock mode toggle button
-        button_text = "🕐 아날로그" if self.clock_mode == config.CLOCK_MODE_ANALOG else "🔢 디지털"
+        button_text = "🕐 Analog" if self.clock_mode == config.CLOCK_MODE_ANALOG else "🔢 Digital"
         self.clock_mode_button = QPushButton(button_text)
         self.clock_mode_button.clicked.connect(self.toggle_clock_mode)
 
@@ -127,10 +127,10 @@ class MainWindow(QMainWindow):
         """Toggle between dark and light theme"""
         if self.current_theme == config.THEME_DARK:
             self.current_theme = config.THEME_LIGHT
-            self.theme_button.setText("☀️ 라이트 모드")
+            self.theme_button.setText("☀️ Light Mode")
         else:
             self.current_theme = config.THEME_DARK
-            self.theme_button.setText("🌙 다크 모드")
+            self.theme_button.setText("🌙 Dark Mode")
 
         self.settings.set('theme', self.current_theme)
         self.apply_theme()
@@ -146,7 +146,7 @@ class MainWindow(QMainWindow):
             self.analog_clock.show()
 
             self.clock_mode = config.CLOCK_MODE_ANALOG
-            self.clock_mode_button.setText("🕐 아날로그")
+            self.clock_mode_button.setText("🕐 Analog")
         else:
             self.clock_layout.removeWidget(self.analog_clock)
             self.analog_clock.hide()
@@ -155,7 +155,7 @@ class MainWindow(QMainWindow):
             self.digital_clock.show()
 
             self.clock_mode = config.CLOCK_MODE_DIGITAL
-            self.clock_mode_button.setText("🔢 디지털")
+            self.clock_mode_button.setText("🔢 Digital")
 
         self.settings.set('clock.mode', self.clock_mode)
 

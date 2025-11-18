@@ -19,7 +19,7 @@ class CalendarWidget(QWidget):
         layout = QVBoxLayout()
 
         # Calendar title
-        self.title_label = QLabel("달력")
+        self.title_label = QLabel("Calendar")
         self.title_label.setAlignment(Qt.AlignCenter)
         title_font = QFont('Ubuntu', 14, QFont.Bold)
         self.title_label.setFont(title_font)
@@ -53,19 +53,27 @@ class CalendarWidget(QWidget):
         """Update the date information label"""
         selected_date = self.calendar.selectedDate()
 
-        # Get day name in Korean
+        # Get day name in English
         day_names = {
-            1: '월요일',
-            2: '화요일',
-            3: '수요일',
-            4: '목요일',
-            5: '금요일',
-            6: '토요일',
-            7: '일요일'
+            1: 'Monday',
+            2: 'Tuesday',
+            3: 'Wednesday',
+            4: 'Thursday',
+            5: 'Friday',
+            6: 'Saturday',
+            7: 'Sunday'
+        }
+
+        # Get month name in English
+        month_names = {
+            1: 'January', 2: 'February', 3: 'March', 4: 'April',
+            5: 'May', 6: 'June', 7: 'July', 8: 'August',
+            9: 'September', 10: 'October', 11: 'November', 12: 'December'
         }
 
         day_name = day_names.get(selected_date.dayOfWeek(), '')
-        date_str = f"{selected_date.year()}년 {selected_date.month()}월 {selected_date.day()}일 {day_name}"
+        month_name = month_names.get(selected_date.month(), '')
+        date_str = f"{month_name} {selected_date.day()}, {selected_date.year()} {day_name}"
 
         self.date_info_label.setText(date_str)
 

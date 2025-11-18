@@ -105,6 +105,9 @@ class AnalogClock(QWidget):
         painter.setBrush(hand_color)
         painter.drawEllipse(-5, -5, 10, 10)
 
+        # Reset transformation to draw digital time in widget coordinates
+        painter.resetTransform()
+
         # Draw digital time below the clock (centered)
         painter.setPen(QPen(clock_color, 1))
         font = QFont('Ubuntu', 10)
@@ -114,7 +117,13 @@ class AnalogClock(QWidget):
         # Calculate text width for centering
         fm = painter.fontMetrics()
         text_width = fm.horizontalAdvance(time_str)
-        painter.drawText(-text_width // 2, 130, time_str)
+
+        # Position text below the clock circle with 30px gap
+        # Calculate the bottom of the clock circle
+        clock_bottom = (self.height() / 2) + (side / 2) + 30
+
+        # Draw text centered horizontally, below the clock
+        painter.drawText(int(self.width() / 2 - text_width / 2), int(clock_bottom), time_str)
 
     def set_scale(self, scale):
         """Set the scale factor for the clock"""

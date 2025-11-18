@@ -61,20 +61,8 @@ class DigitalClock(QWidget):
         time_str = current_time.strftime('%H:%M:%S')
         self.time_label.setText(time_str)
 
-        # Format date
-        date_str = current_time.strftime('%Y년 %m월 %d일 %A')
-        # Translate day names to Korean
-        day_names = {
-            'Monday': '월요일',
-            'Tuesday': '화요일',
-            'Wednesday': '수요일',
-            'Thursday': '목요일',
-            'Friday': '금요일',
-            'Saturday': '토요일',
-            'Sunday': '일요일'
-        }
-        for eng, kor in day_names.items():
-            date_str = date_str.replace(eng, kor)
+        # Format date in English (e.g., "January 15, 2025 Monday")
+        date_str = current_time.strftime('%B %d, %Y %A')
 
         self.date_label.setText(date_str)
 
